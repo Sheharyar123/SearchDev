@@ -75,7 +75,7 @@ class Review(models.Model):
     class Meta:
         ordering = ["-updated_on", "-created_on"]
         indexes = [models.Index(fields=["id", "-updated_on", "-created_on"])]
-        unique_together = [["owner", "project"]]
+        # unique_together = [["owner", "project"]]
 
     def __str__(self):
         """Defines representation of a review object"""
