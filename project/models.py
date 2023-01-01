@@ -45,16 +45,18 @@ class Project(models.Model):
         return self.title
 
     @property
-    def vote_ratio(self):
-        """Returns the ratio of positive votes"""
-        total_votes = self.reviews.count()
-        up_votes = self.reviews.filter(value__iexact="Up Vote").count()
-        return round((up_votes / total_votes) * 100, 0)
-
-    @property
     def vote_count(self):
         """Returns the total votes based on users feedback"""
         return self.reviews.count()
+
+    @property
+    def vote_ratio(self):
+        """Returns the ratio of positive votes"""
+        total_votes = self.vote_count
+        up_votes = self.reviews.filter(value__iexact="Up Vote").count()
+        if total_votes == 0 or up_votes == 0:
+            return 0
+        return (up_votes / total_votes) * 100
 
 
 class Review(models.Model):
@@ -72,6 +74,7 @@ class Review(models.Model):
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="reviews")
     value = models.CharField(max_length=4, choices=VOTE_TYPE)
     body = models.TextField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 

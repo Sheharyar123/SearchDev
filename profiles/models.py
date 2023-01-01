@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 import uuid
 
 
@@ -28,6 +29,10 @@ class Profile(models.Model):
     def __str__(self):
         """Defines representation of profile object"""
         return f"{self.user.name}'s profile"
+
+    def get_absolute_url(self):
+        """Canonical url for each user profile"""
+        return reverse("profiles:profile_detail", args=[self.id])
 
 
 class Skill(models.Model):

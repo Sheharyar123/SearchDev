@@ -6,6 +6,7 @@ class ReviewInline(admin.TabularInline):
     """Makes all the reviews inline to a project"""
 
     model = Review
+    # readonly_fields = ["owner", "value", "body"]
 
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -14,6 +15,7 @@ class ProjectAdmin(admin.ModelAdmin):
     inlines = [ReviewInline]
     list_display = ("title", "demo_link", "created_on", "updated_on")
     search_fields = ("title", "description")
+    raw_id_fields = ["owner"]
 
 
 class TagAdmin(admin.ModelAdmin):

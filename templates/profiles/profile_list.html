@@ -40,7 +40,7 @@
             {% for profile in profile_list %}
                 <div class="column card">
                 <div class="dev">
-                    <a href="/profile.html" class="card__body">
+                    <a href="{{ profile.get_absolute_url }}" class="card__body">
                     <div class="dev__profile">
                         <img
                         class="avatar avatar--md"
