@@ -12,7 +12,10 @@ class Profile(models.Model):
     bio = models.TextField(null=True, blank=True)
     location = models.CharField(max_length=100, null=True, blank=True)
     user_img = models.ImageField(
-        upload_to="photos/profiles", null=True, blank=True, default="user-default.png"
+        upload_to="photos/profiles",
+        null=True,
+        blank=True,
+        default="photos/profiles/user-default.png",
     )
     social_github = models.CharField(max_length=255, null=True, blank=True)
     social_twitter = models.CharField(max_length=255, null=True, blank=True)

@@ -28,7 +28,10 @@ class Project(models.Model):
     demo_link = models.CharField(max_length=255, unique=True, null=True, blank=True)
     source_code = models.CharField(max_length=255, unique=True, null=True, blank=True)
     featured_img = models.ImageField(
-        upload_to="photos/projects", null=True, blank=True, default="default.jpg"
+        upload_to="photos/projects",
+        null=True,
+        blank=True,
+        default="photos/projects/default.jpg",
     )
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
