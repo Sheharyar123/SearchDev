@@ -1,6 +1,6 @@
-from django.db import models
-from django.contrib.auth import get_user_model
 import uuid
+from django.db import models
+from profiles.models import Profile
 
 # Create your models here.
 class Tag(models.Model):
@@ -19,9 +19,9 @@ class Project(models.Model):
     """Project Model"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    # owner = models.ForeignKey(
-    #     get_user_model(), on_delete=models.SET_NULL, null=True, related_name="projects"
-    # )
+    owner = models.ForeignKey(
+        Profile, on_delete=models.SET_NULL, null=True, related_name="projects"
+    )
     tags = models.ManyToManyField(Tag, blank=True)
     title = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
@@ -66,7 +66,7 @@ class Review(models.Model):
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="reviews"
     )
-    # owner = models.OneToOneField(get_user_model(), on_delete=)
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="reviews")
     value = models.CharField(max_length=4, choices=VOTE_TYPE)
     body = models.TextField(null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
