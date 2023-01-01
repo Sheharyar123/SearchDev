@@ -17,6 +17,7 @@ class ProfileAdmin(admin.ModelAdmin):
     inlines = [SkillInline]
     list_display = ("user", "headline", "location", "created_on", "updated_on")
     search_fields = ("user", "location", "headline", "bio")
+    raw_id_fields = ["user"]
 
 
 admin.site.register(Profile, ProfileAdmin)
