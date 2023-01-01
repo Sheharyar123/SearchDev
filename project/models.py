@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.urls import reverse
 from profiles.models import Profile
 
 # Create your models here.
@@ -37,12 +38,15 @@ class Project(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ["-updated_on", "-created_on"]
         indexes = [models.Index(fields=["id", "-updated_on", "-created_on"])]
 
     def __str__(self):
         """Defines representation of a project object"""
         return self.title
+
+    def get_absolute_url(self):
+        """Canonical url for each user project"""
+        return reverse("project:project_detail", args=[self.id])
 
     @property
     def vote_count(self):
@@ -81,7 +85,7 @@ class Review(models.Model):
     class Meta:
         ordering = ["-updated_on", "-created_on"]
         indexes = [models.Index(fields=["id", "-updated_on", "-created_on"])]
-        # unique_together = [["owner", "project"]]
+        unique_together = [["owner", "project"]]
 
     def __str__(self):
         """Defines representation of a review object"""

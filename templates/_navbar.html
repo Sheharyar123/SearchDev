@@ -2,31 +2,31 @@
 
 <!-- Header Section -->
 <header class="header">
-    <div class="container container--narrow">
+  <div class="container container--narrow">
     <a href="{% url 'profiles:profile_list' %}" class="header__logo">
-        <img src="{% static 'img/logo.svg' %}" alt="DevSearch Logo" />
+      <img src="{% static 'img/logo.svg' %}" alt="DevSearch Logo" />
     </a>
     <nav class="header__nav">
-        <input type="checkbox" id="responsive-menu" />
-        <label for="responsive-menu" class="toggle-menu">
+      <input type="checkbox" id="responsive-menu" />
+      <label for="responsive-menu" class="toggle-menu">
         <span>Menu</span>
         <div class="toggle-menu__lines"></div>
-        </label>
-        <ul class="header__menu">
+      </label>
+      <ul class="header__menu">
         <li class="header__menuItem">
-            <a href="index.html">Developers</a>
+          <a href="{% url 'profiles:profile_list' %}">Developers</a>
         </li>
         <li class="header__menuItem">
-            <a href="projects.html">Projects</a>
+          <a href="{% url 'project:project_list' %}">Projects</a>
         </li>
         <li class="header__menuItem"><a href="inbox.html">Inbox</a></li>
         <li class="header__menuItem">
-            <a href="account.html">My Account</a>
+          <a href="account.html">My Account</a>
         </li>
         <li class="header__menuItem">
-            <a href="login.html" class="btn btn--sub">Login/Sign Up</a>
+          <a href="login.html" class="btn btn--sub">Login/Sign Up</a>
         </li>
-        </ul>
+      </ul>
     </nav>
-    </div>
+  </div>
 </header>

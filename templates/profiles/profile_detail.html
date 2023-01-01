@@ -69,24 +69,24 @@
               {% for project in projects %}
                 <div class="column">
                     <div class="card project">
-                    <a href="single-project.html" class="project">
-                        <img class="project__thumbnail" src="{{ project.featured_img.url }}" alt="project thumbnail" />
-                        <div class="card__body">
-                        <h3 class="project__title">{{ project.title|title }}</h3>
-                        <p><a class="project__author" href="profile.html">By {{ project.owner.user.name|title }}</a></p>
-                        <p class="project--rating">
-                            <span style="font-weight: bold;">{{ project.vote_ratio }}%</span> Postitive
-                            Feedback ({{ project.vote_count }} Vote{{ project.vote_count|pluralize }})
-                        </p>
-                        <div class="project__tags">
-                            {% for tag in project.tags.all|slice:":5" %}
-                                <span class="tag tag--pill tag--main">
-                                <small>{{ tag.name }}</small>
-                                </span>
-                            {% endfor %}
-                        </div>
-                        </div>
-                    </a>
+                      <a href="{{ project.get_absolute_url }}" class="project">
+                          <img class="project__thumbnail" src="{{ project.featured_img.url }}" alt="project thumbnail" />
+                          <div class="card__body">
+                          <h3 class="project__title">{{ project.title|title }}</h3>
+                          <p><a class="project__author" href="{{ project.profile.get_absolute_url }}">By {{ project.owner.user.name|title }}</a></p>
+                          <p class="project--rating">
+                              <span style="font-weight: bold;">{{ project.vote_ratio }}%</span> Postitive
+                              Feedback ({{ project.vote_count }} Vote{{ project.vote_count|pluralize }})
+                          </p>
+                          <div class="project__tags">
+                              {% for tag in project.tags.all|slice:":5" %}
+                                  <span class="tag tag--pill tag--main">
+                                  <small>{{ tag.name }}</small>
+                                  </span>
+                              {% endfor %}
+                          </div>
+                          </div>
+                      </a>
                     </div>
                 </div>
               {% endfor %}
