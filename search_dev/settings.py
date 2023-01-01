@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # Local
     "account.apps.AccountConfig",
     "project.apps.ProjectConfig",
+    "profiles.apps.ProfilesConfig",
 ]
 
 MIDDLEWARE = [
