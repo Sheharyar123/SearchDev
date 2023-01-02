@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/556e9f70c0.js" crossorigin="anonymous"></script>
+    <!-- Mumble UI -->
+    <link rel="stylesheet" href="{% static 'uikit/styles/uikit.css' %}" />
+    <!-- Dev Search UI -->
+    <link rel="stylesheet" href="{% static 'styles/app.css' %}" />
+
+    <title>DevSearch - {% block head_title %}{% endblock head_title %}</title>
+  </head>
+
+  <body>
+    {% block content %}{% endblock content %}
+  </body>
+</html>

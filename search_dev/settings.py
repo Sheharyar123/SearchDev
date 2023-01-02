@@ -151,11 +151,21 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SITE_ID = 1
-LOGIN_REDIRECT_URL = "profiles:profile_list"
-ACCOUNT_LOGOUT_REDIRECT = "profiles:profile_list"
+LOGIN_REDIRECT_URL = "/"
+ACCOUNT_LOGOUT_REDIRECT = "/"
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+# Can be dangerous
+ACCOUNT_LOGOUT_ON_GET = True
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# Custom allauth forms
+ACCOUNT_FORMS = {
+    "login": "accounts.forms.CustomLoginForm",
+    "signup": "accounts.forms.CustomSignupForm",
+}

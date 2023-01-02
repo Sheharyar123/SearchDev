@@ -1,0 +1,56 @@
+{% extends 'account/base.html' %}
+{% load static %}
+
+{% block head_title %}Sign Up{% endblock head_title %}
+
+{% block content %}
+    <div class="auth">
+      <div class="card">
+        <div class="auth__header text-center">
+          <a href="{% url 'profiles:profile_list' %}">
+                <img src="{% static 'img/icon.svg' %}" alt="icon" />
+          </a>
+          <h3>Account SignUp</h3>
+          <p>Create a new developer account</p>
+        </div>
+
+        <form action="{% url 'account_signup' %}" class="form auth__form" method="POST">
+          {% csrf_token %}
+          <!-- Input:Text -->
+          <div class="form__field">
+            <label for="formInput#text">{{ form.name.label }}</label>
+            {{ form.name }}
+          </div>
+
+          <!-- Input:Email -->
+          <div class="form__field">
+            <label for="formInput#email">{{ form.email.label }}</label>
+            {{ form.email }}
+          </div>
+
+          <!-- Input:Password -->
+          <div class="form__field">
+            <label for="formInput#password">{{ form.password1.label }}</label>
+            {{ form.password1 }}
+          </div>
+          <!-- Input:Password -->
+          <div class="form__field">
+            <label for="formInput#confirm-password">{{ form.password2.label }}</label>
+            {{ form.password2 }}
+          </div>
+          <div class="auth__actions">
+            <input
+              class="btn btn--sub btn--lg"
+              type="submit"
+              value="Sign  In"
+            />
+          </div>
+        </form>
+        <div class="auth__alternative">
+          <p>Already have an Account?</p>
+          <a href="{% url 'account_login' %}">Log In</a>
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}
