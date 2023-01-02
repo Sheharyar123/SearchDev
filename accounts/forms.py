@@ -1,8 +1,6 @@
 from django import forms
 
-from allauth.account.forms import LoginForm, SignupForm
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import get_user_model
+from allauth.account.forms import LoginForm, SignupForm, ResetPasswordKeyForm
 
 
 class CustomLoginForm(LoginForm):
@@ -52,3 +50,25 @@ class CustomSignupForm(SignupForm):
         user = super(CustomSignupForm, self).save(request)
         user.name = self.cleaned_data["name"]
         user.save()
+
+
+class CustomResetPasswordKeyForm(ResetPasswordKeyForm):
+    password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
+
+    password1.widget.attrs.update(
+        {"class": "input input--password", "placeholder": "••••••••"}
+    )
+    password2.widget.attrs.update(
+        {"class": "input input--password", "placeholder": "••••••••"}
+    )
+
+    # def __init__(self, *args, **kwargs):
+    #     self.fields["password1"].widget = forms.PasswordInput(
+    #         attrs={"class": "input input--password", "placeholder": "••••••••"}
+    #     )
+    #     self.fields["password1"].label = "Change Password"
+    #     self.fields["password2"].widget = forms.PasswordInput(
+    #         attrs={"class": "input input--password", "placeholder": "••••••••"}
+    #     )
+    #     self.fields["password2"].label = "Confirm Password"
