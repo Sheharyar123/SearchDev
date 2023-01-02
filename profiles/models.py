@@ -8,7 +8,9 @@ class Profile(models.Model):
     """Model for User Profile"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        get_user_model(), on_delete=models.CASCADE, related_name="profile"
+    )
     headline = models.CharField(max_length=255, null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
     location = models.CharField(max_length=100, null=True, blank=True)
@@ -25,6 +27,10 @@ class Profile(models.Model):
     social_website = models.CharField(max_length=255, null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-updated_on", "-created_on"]
+        indexes = [models.Index(fields=["id", "-updated_on", "-created_on"])]
 
     def __str__(self):
         """Defines representation of profile object"""

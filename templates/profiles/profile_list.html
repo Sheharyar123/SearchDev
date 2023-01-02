@@ -12,14 +12,14 @@
           </div>
 
           <div class="hero-section__search">
-            <form class="form" action="#" method="get">
+            <form class="form" action="{% url 'profiles:profile_list' %}" method="get">
               <div class="form__field">
                 <label for="formInput#search">Search Developers </label>
                 <input
                   class="input input--text"
                   id="formInput#search"
                   type="text"
-                  name="text"
+                  name="q"
                   placeholder="Search by developer name"
                 />
               </div>
@@ -34,59 +34,71 @@
         </div>
       </section>
       <!-- Search Result: DevList -->
+      {% if query %}
+      <h1 class="text-center">Search Results ({{ profile_list.count }} Profile{{ profile_list.count|pluralize }} Found)</h1>
+      {% endif %}
       <section class="devlist">
         <div class="container">
           <div class="grid grid--three">
             {% for profile in profile_list %}
                 <div class="column card">
-                <div class="dev">
-                    <a href="{{ profile.get_absolute_url }}" class="card__body">
-                    <div class="dev__profile">
-                        <img
-                        class="avatar avatar--md"
-                        src="{{ profile.user_img.url }}"
-                        alt="image"
-                        />
-                        <div class="dev__meta">
-                        <h3>{{ profile.user.name|title }}</h3>
-                        <h5>{{ profile.headline|title }}</h5>
-                        </div>
-                    </div>
-                    <p class="dev__info">
-                        {{ profile.bio|linebreaks|truncatechars:200 }}
-                    </p>
-                    <br>
-                    <div class="dev__skills">
-                        {% for skill in profile.skills.all|slice:":5" %}
-                            <span class="tag tag--pill tag--main">
-                            <small>{{ skill.name|title }}</small>
-                            </span>
-                        {% endfor %}
-                    </div>
-                    </a>
-                </div>
+                  <div class="dev">
+                      <a href="{{ profile.get_absolute_url }}" class="card__body">
+                      <div class="dev__profile">
+                          <img
+                          class="avatar avatar--md"
+                          src="{{ profile.user_img.url }}"
+                          alt="image"
+                          />
+                          <div class="dev__meta">
+                          <h3>{{ profile.user.name|title }}</h3>
+                          <h5>{{ profile.headline|title }}</h5>
+                          </div>
+                      </div>
+                      <p class="dev__info">
+                          {{ profile.bio|linebreaks|truncatechars:200 }}
+                      </p>
+                      <br>
+                      <div class="dev__skills">
+                          {% for skill in profile.skills.all|slice:":5" %}
+                              <span class="tag tag--pill tag--main">
+                              <small>{{ skill.name|title }}</small>
+                              </span>
+                          {% endfor %}
+                      </div>
+                      </a>
+                  </div>
                 </div>
             {% endfor %}
           </div>
         </div>
       </section>
 
-      <div class="pagination">
-        <ul class="container">
-          <li><a href="#" class="btn btn--disabled">&#10094; Prev</a></li>
-          <li><a href="#" class="btn btn--sub">01</a></li>
-          <li><a href="#" class="btn">02</a></li>
-          <li><a href="#" class="btn">03</a></li>
-          <li><a href="#" class="btn">04</a></li>
-          <li><a href="#" class="btn">05</a></li>
-          <li><a href="#" class="btn">06</a></li>
-          <li><a href="#" class="btn">07</a></li>
-          <li><a href="#" class="btn">08</a></li>
-          <li><a href="#" class="btn">09</a></li>
-          <li><a href="#" class="btn">10</a></li>
-          <li><a href="#" class="btn">Next &#10095;</a></li>
-        </ul>
-      </div>
+      {% if profile_list %}
+        <div class="pagination">
+          <ul class="container">
+            {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}" class="btn">&#10094; Prev</a></li>
+            {% else %}
+                <li><a href="#" class="btn btn--disabled">&#10094; Prev</a></li>
+            {% endif %}
+
+            {% for i in page_obj.paginator.page_range %}
+                {% if i == page_obj.number %}
+                    <li><a href="?page={{ i }}" class="btn btn--sub">{{ i }}</a></li>
+                {% else %}
+                    <li><a href="?page={{ i }}" class="btn">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}" class="btn">Next &#10095;</a></li>
+            {% else %}
+                <li><a href="#" class="btn btn--disabled">Next &#10095;</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      {% endif %}
     </main>
 
 {% endblock content %}
