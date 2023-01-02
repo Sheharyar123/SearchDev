@@ -8,7 +8,7 @@ class ProjectListView(ListView):
     """Defines the logic to list all projects"""
 
     model = Project
-    template_name = "project/project_list.html"
+    template_name = "projects/project_list.html"
     context_object_name = "project_list"
     paginate_by = 6
 
@@ -42,5 +42,5 @@ class ProjectDetailView(DetailView):
     """Defines the logic to display project in detail"""
 
     model = Project
-    template_name = "project/project_detail.html"
+    template_name = "projects/project_detail.html"
     context_object_name = "project"

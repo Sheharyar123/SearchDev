@@ -1,8 +1,7 @@
 from django.db.models import Q
-from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
-from project.models import Project
+from projects.models import Project
 from .models import Profile
 
 

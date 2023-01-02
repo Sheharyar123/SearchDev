@@ -37,9 +37,18 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+    # Third Party
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.facebook",
+    "allauth.socialaccount.providers.github",
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.twitter",
     # Local
-    "account.apps.AccountConfig",
-    "project.apps.ProjectConfig",
+    "accounts.apps.AccountsConfig",
+    "projects.apps.ProjectsConfig",
     "profiles.apps.ProfilesConfig",
 ]
 
@@ -131,4 +140,22 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Sets the user model to custom user model
-AUTH_USER_MODEL = "account.USER"
+AUTH_USER_MODEL = "accounts.USER"
+
+# Django Allauth Settings
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+SITE_ID = 1
+LOGIN_REDIRECT_URL = "profiles:profile_list"
+ACCOUNT_LOGOUT_REDIRECT = "profiles:profile_list"
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
