@@ -1,7 +1,9 @@
 from django.db.models import Q
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 
-from .models import Project
+from .forms import ReviewForm
+from .models import Project, Review
 
 # Create your views here.
 class ProjectListView(ListView):
@@ -44,3 +46,23 @@ class ProjectDetailView(DetailView):
     model = Project
     template_name = "projects/project_detail.html"
     context_object_name = "project"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = ReviewForm()
+        owner = self.request.user.profile
+        context["commented"] = Review.objects.filter(
+            owner=owner, project=self.get_object()
+        ).exists()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.owner = request.user.profile
+            review.project = self.get_object()
+            review.save()
+            return redirect(self.get_object().get_absolute_url())
+        else:
+            return None

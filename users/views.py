@@ -1,15 +1,16 @@
 from django.db.models import Q
-from django.views.generic import ListView, DetailView
+from django.shortcuts import render
+from django.views.generic import ListView, DetailView, View
 
 from projects.models import Project
 from .models import Profile
 
 
-class ProfileListView(ListView):
-    """View to list all the profiles"""
+class UserProfileListView(ListView):
+    """View to list all the users"""
 
     model = Profile
-    template_name = "profiles/profile_list.html"
+    template_name = "users/profile_list.html"
     context_object_name = "profile_list"
     paginate_by = 6
 
@@ -31,11 +32,11 @@ class ProfileListView(ListView):
         return context
 
 
-class ProfileDetailView(DetailView):
+class UserProfileDetailView(DetailView):
     """View to display profile in detail"""
 
     model = Profile
-    template_name = "profiles/profile_detail.html"
+    template_name = "users/profile_detail.html"
     context_object_name = "profile"
 
     def get_context_data(self, **kwargs):
@@ -46,3 +47,9 @@ class ProfileDetailView(DetailView):
             reverse=True,
         )
         return context
+
+
+class UserAccountView(View):
+    def get(self, request, *args, **kwargs):
+        profile = request.user.profile
+        return render(request, "users/user_account.html", {"profile": profile})

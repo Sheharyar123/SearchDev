@@ -9,10 +9,10 @@
         <div class="column column--1of3">
           <div class="card text-center">
             <div class="card__body dev">
-              <img class="avatar avatar--xl" src="https://avatars.githubusercontent.com/u/33843378" />
+              <img class="avatar avatar--xl" src="{{ profile.user_img.url }}" />
               <h2 class="dev__name">{{ profile.user.name|title }}</h2>
               <p class="dev__title">{{ profile.headline|title }}</p>
-              <p class="dev__location">Based in {{ profile.location|title }}</p>
+              <p class="dev__location">Based in {{ profile.location }}</p>
               <ul class="dev__social">
                 <li>
                   <a title="Github" href="{{ profile.social_github }}" target="_blank"><i class="fa-brands fa-github fa-2x"></i></a>
@@ -51,16 +51,20 @@
                     {{ skill.description }}
                     </p>
                 </div>
+              {% empty %}
+                <p>Add a <a href="">Skill</a></p>
               {% endfor %}
 
-              <h3 class="devInfo__subtitle">Other Skills</h3>
-              <div class="devInfo__otherSkills">
-                {% for skill in profile.skills.all|slice:"3:" %}
-                    <span class="tag tag--pill tag--sub tag--lg">
-                    <small>{{ skill.name }}</small>
-                    </span>
-                {% endfor %}
-              </div>
+              {% if profile.skills.count > 3 %}
+                <h3 class="devInfo__subtitle">Other Skills</h3>
+                <div class="devInfo__otherSkills">
+                  {% for skill in profile.skills.all|slice:"3:" %}
+                      <span class="tag tag--pill tag--sub tag--lg">
+                      <small>{{ skill.name }}</small>
+                      </span>
+                  {% endfor %}
+                </div>
+              {% endif %}
             </div>
           </div>
           <div class="devInfo">
@@ -89,6 +93,8 @@
                       </a>
                     </div>
                 </div>
+                {% empty %}
+                <p>Add a <a href="">Project</a></p>
               {% endfor %}
             </div>
           </div>

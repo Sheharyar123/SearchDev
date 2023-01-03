@@ -1,7 +1,7 @@
 import uuid
 from django.db import models
 from django.urls import reverse
-from profiles.models import Profile
+from users.models import Profile
 
 # Create your models here.
 class Tag(models.Model):
@@ -57,10 +57,11 @@ class Project(models.Model):
     def vote_ratio(self):
         """Returns the ratio of positive votes"""
         total_votes = self.vote_count
-        up_votes = self.reviews.filter(value__iexact="Up Vote").count()
+        up_votes = self.reviews.filter(value__iexact="up").count()
+        print(up_votes)
         if total_votes == 0 or up_votes == 0:
             return 0
-        return (up_votes / total_votes) * 100
+        return round(up_votes / total_votes * 100)
 
 
 class Review(models.Model):

@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     # Local
     "accounts.apps.AccountsConfig",
     "projects.apps.ProjectsConfig",
-    "profiles.apps.ProfilesConfig",
+    "users.apps.UsersConfig",
 ]
 
 MIDDLEWARE = [
@@ -156,8 +156,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SITE_ID = 1
-LOGIN_REDIRECT_URL = "/"
-ACCOUNT_LOGOUT_REDIRECT = "/"
+LOGIN_REDIRECT_URL = "users:users_profiles"
+ACCOUNT_LOGOUT_REDIRECT = "users:user_profile"
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_SESSION_REMEMBER = True
