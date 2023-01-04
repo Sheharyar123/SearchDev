@@ -1,16 +1,18 @@
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, View
 
 from projects.models import Project
 from .models import Profile
+
+from .forms import ProfileForm
 
 
 class UserProfileListView(ListView):
     """View to list all the users"""
 
     model = Profile
-    template_name = "users/profile_list.html"
+    template_name = "users/users_profiles.html"
     context_object_name = "profile_list"
     paginate_by = 6
 
@@ -24,7 +26,7 @@ class UserProfileListView(ListView):
                 | Q(bio__icontains=query)
             ).distinct()
         else:
-            return Profile.objects.all()
+            return Profile.objects.exclude(headline__exact=None)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,7 +38,7 @@ class UserProfileDetailView(DetailView):
     """View to display profile in detail"""
 
     model = Profile
-    template_name = "users/profile_detail.html"
+    template_name = "users/user_profile.html"
     context_object_name = "profile"
 
     def get_context_data(self, **kwargs):
@@ -51,5 +53,19 @@ class UserProfileDetailView(DetailView):
 
 class UserAccountView(View):
     def get(self, request, *args, **kwargs):
-        profile = request.user.profile
+        profile = Profile.objects.get(user=request.user)
         return render(request, "users/user_account.html", {"profile": profile})
+
+
+class UserAccountEditView(View):
+    def get(self, request, *args, **kwargs):
+        profile = request.user.profile
+        form = ProfileForm(instance=profile)
+        return render(request, "users/user_account_edit.html", {"form": form})
+
+    def post(self, request, *args, **kwargs):
+        profile = request.user.profile
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid:
+            form.save()
+            return redirect("users:user_account")

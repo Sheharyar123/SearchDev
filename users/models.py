@@ -38,7 +38,7 @@ class Profile(models.Model):
 
     def get_absolute_url(self):
         """Canonical url for each user profile"""
-        return reverse("profiles:profile_detail", args=[self.id])
+        return reverse("users:user_profile", args=[self.id])
 
 
 class Skill(models.Model):
