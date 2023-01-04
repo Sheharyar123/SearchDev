@@ -83,7 +83,7 @@
 
           <div class="settings">
             <h3 class="settings__title">Projects</h3>
-            <a class="tag tag--pill tag--sub settings__btn tag--lg" href="#"><i class="fa-sharp fa-solid fa-plus"></i> Add Project</a>
+            <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'projects:project_create' %}"><i class="fa-sharp fa-solid fa-plus"></i> Add Project</a>
           </div>
 
           <table class="settings__table">
@@ -99,7 +99,7 @@
                 </p>
               </td>
               <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-edit"></i> Edit</a>
+                <a class="tag tag--pill tag--main settings__btn" href="#"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
                 <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-x-mark-circle-o"></i>
                   Delete</a>
               </td>

@@ -1,8 +1,13 @@
 from django.db.models import Q
 from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+)
 
-from .forms import ReviewForm
+from .forms import ReviewForm, ProjectForm
 from .models import Project, Review
 
 # Create your views here.
@@ -66,3 +71,19 @@ class ProjectDetailView(DetailView):
             return redirect(self.get_object().get_absolute_url())
         else:
             return None
+
+
+class ProjectCreateView(CreateView):
+    form_class = ProjectForm
+    template_name = "projects/project_create.html"
+    success_url = reverse_lazy("users:user_account")
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user.profile
+        form.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["project"] = self.object
+        return context

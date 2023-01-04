@@ -27,7 +27,7 @@ class Project(models.Model):
     title = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
     demo_link = models.CharField(max_length=255, unique=True, null=True, blank=True)
-    source_code = models.CharField(max_length=255, unique=True, null=True, blank=True)
+    source_link = models.CharField(max_length=255, unique=True, null=True, blank=True)
     featured_img = models.ImageField(
         upload_to="photos/projects",
         null=True,
