@@ -40,20 +40,18 @@
             <div class="comments">
               <h3 class="singleProject__subtitle">Feedback</h3>
               <h5 class="project--rating">{{ project.vote_ratio }}% 
-                  Postitive Feedback ({{ project.vote_count }} Vote{{ project.vote_count|pluralize}})
+                  Postitive Feedback ({{ project.vote_count }} Vote{{ project.vote_count|pluralize }})
               </h5>
               {% if not commented %}
-                <form class="form" action="" method="POST">
+                <form class="form" action="{% url 'projects:project_detail' project.id %}" method="POST">
                   {% csrf_token %}
                   {% for field in form %}
-                    <label>{{ field.label }}</label>
-                    {{ field }}
+                  <div class="form__field">
+                      <label for="formInput#textarea">{{field.label}}</label>
+                      {{field}}
+                  </div>
                   {% endfor %}
-                  <input
-                    class="btn btn--sub btn--lg"
-                    type="submit"
-                    value="Comment"
-                  /> 
+                  <input class="btn btn--sub btn--lg" type="submit" value="Add Review" />
                 </form>
               {% endif %}
               <div class="commentList">

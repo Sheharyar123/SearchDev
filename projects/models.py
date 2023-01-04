@@ -26,8 +26,8 @@ class Project(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     title = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
-    demo_link = models.CharField(max_length=255, unique=True, null=True, blank=True)
-    source_link = models.CharField(max_length=255, unique=True, null=True, blank=True)
+    demo_link = models.CharField(max_length=255, null=True, blank=True)
+    source_link = models.CharField(max_length=255, null=True, blank=True)
     featured_img = models.ImageField(
         upload_to="photos/projects",
         null=True,
@@ -46,7 +46,7 @@ class Project(models.Model):
 
     def get_absolute_url(self):
         """Canonical url for each user project"""
-        return reverse("project:project_detail", args=[self.id])
+        return reverse("projects:project_detail", args=[self.id])
 
     @property
     def vote_count(self):

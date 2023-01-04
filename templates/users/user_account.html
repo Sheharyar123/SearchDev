@@ -99,8 +99,8 @@
                 </p>
               </td>
               <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href="#"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-                <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-x-mark-circle-o"></i>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url 'projects:project_update' project.id %}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url 'projects:project_delete' project.id %}"><i class="im im-x-mark-circle-o"></i>
                   Delete</a>
               </td>
             </tr>

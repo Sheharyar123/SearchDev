@@ -19,14 +19,7 @@ class ReviewForm(forms.ModelForm):
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = [
-            "title",
-            "featured_img",
-            "description",
-            "demo_link",
-            "source_link",
-        ]
-
+        fields = ["title", "featured_img", "description", "demo_link", "source_link"]
         widgets = {
             "tags": forms.CheckboxSelectMultiple(),
         }

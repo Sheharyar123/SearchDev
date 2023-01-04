@@ -1,14 +1,10 @@
 from django.db.models import Q
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import (
-    ListView,
-    DetailView,
-    CreateView,
-)
+from django.views.generic import View, ListView, DetailView, DeleteView
 
 from .forms import ReviewForm, ProjectForm
-from .models import Project, Review
+from .models import Project, Review, Tag
 
 # Create your views here.
 class ProjectListView(ListView):
@@ -73,17 +69,50 @@ class ProjectDetailView(DetailView):
             return None
 
 
-class ProjectCreateView(CreateView):
-    form_class = ProjectForm
-    template_name = "projects/project_create.html"
+class ProjectCreateView(View):
+    def get(self, request, *args, **kwargs):
+        form = ProjectForm()
+        context = {"form": form}
+        return render(request, "projects/project_create.html", context)
+
+    def post(self, request, *args, **kwargs):
+        newtags = request.POST.get("newtags").split(",")
+        form = ProjectForm(request.POST, request.FILES)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.owner = request.user.profile
+            project.save()
+
+            for tag in newtags:
+                tag, created = Tag.objects.get_or_create(name=tag)
+                project.tags.add(tag)
+            return redirect("users:user_account")
+
+
+class ProjectUpdateView(View):
+    def get(self, request, *args, **kwargs):
+        project = Project.objects.get(id=kwargs["pk"])
+        tags = ",".join([tag.name for tag in project.tags.all()])
+        form = ProjectForm(instance=project)
+        context = {"form": form, "project": project, "tags": tags}
+        return render(request, "projects/project_update.html", context)
+
+    def post(self, request, *args, **kwargs):
+        project = Project.objects.get(id=kwargs["pk"])
+        newtags = request.POST.get("newtags").split(",")
+        form = ProjectForm(request.POST, request.FILES, instance=project)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.owner = request.user.profile
+            project.save()
+
+            for tag in newtags:
+                tag, created = Tag.objects.get_or_create(name=tag)
+                project.tags.add(tag)
+            return redirect("users:user_account")
+
+
+class ProjectDeleteView(DeleteView):
+    model = Project
+    template_name = "projects/project_delete.html"
     success_url = reverse_lazy("users:user_account")
-
-    def form_valid(self, form):
-        form.instance.owner = self.request.user.profile
-        form.save()
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["project"] = self.object
-        return context
