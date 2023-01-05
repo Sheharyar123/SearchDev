@@ -155,7 +155,7 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-SITE_ID = 1
+SITE_ID = 2
 LOGIN_REDIRECT_URL = "users:users_profiles"
 ACCOUNT_LOGOUT_REDIRECT = "users:user_profile"
 ACCOUNT_AUTHENTICATION_METHOD = "email"
@@ -165,6 +165,8 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
 # Can be dangerous
 ACCOUNT_LOGOUT_ON_GET = True
 
@@ -182,3 +184,16 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 # EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
 # EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
+
+# Social Accounts Settings
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+    }
+}

@@ -79,7 +79,7 @@ class Message(models.Model):
         related_name="messages",
     )
     name = models.CharField(max_length=255, null=True, blank=True)
-    email = models.EmailField(max_length=255, unique=True, null=True, blank=True)
+    email = models.EmailField(max_length=255, null=True, blank=True)
     subject = models.CharField(max_length=255, null=True, blank=True)
     body = models.TextField()
     is_read = models.BooleanField(default=False, null=True)

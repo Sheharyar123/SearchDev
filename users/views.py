@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views.generic import (
@@ -151,5 +152,6 @@ class MessageCreateView(View):
                 message.email = sender.user.email
 
             message.save()
+            messages.success(request, "Your message was sent.")
 
         return redirect("users:user_profile", pk=recipient.id)
