@@ -23,7 +23,9 @@ urlpatterns = [
     path("create/skill/", SkillCreateView.as_view(), name="skill_create"),
     path("update/skill/<uuid:pk>/", SkillUpdateView.as_view(), name="skill_update"),
     path("delete/skill/<uuid:pk>/", SkillDeleteView.as_view(), name="skill_delete"),
-    path("create/message/", MessageCreateView.as_view(), name="message_create"),
+    path(
+        "create/message/<uuid:pk>/", MessageCreateView.as_view(), name="message_create"
+    ),
     path("inbox/", MessageListView.as_view(), name="inbox"),
     path("message/<uuid:pk>/", MessageDetailView.as_view(), name="message_detail"),
 ]

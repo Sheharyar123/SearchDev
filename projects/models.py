@@ -66,7 +66,7 @@ class Project(models.Model):
     @property
     def imageURL(self):
         try:
-            url = self.featured_image.url
+            url = self.featured_img.url
         except:
             url = ""
         return url

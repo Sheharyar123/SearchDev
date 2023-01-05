@@ -33,7 +33,7 @@ class UserProfileListView(ListView):
                 | Q(user__name__icontains=query)
                 | Q(location__icontains=query)
                 | Q(bio__icontains=query)
-                | Q(skill__in=skills)
+                | Q(skills__in=skills)
             ).distinct()
         else:
             return Profile.objects.exclude(headline__exact=None)
@@ -58,6 +58,8 @@ class UserProfileDetailView(DetailView):
             key=lambda t: (t.vote_ratio, t.vote_count),
             reverse=True,
         )
+        context["skills"] = self.get_object().skills.exclude(description__exact="")
+        context["other_skills"] = self.get_object().skills.filter(description__exact="")
         return context
 
 
@@ -124,7 +126,30 @@ class MessageDetailView(View):
         return render(request, "users/message_detail.html", context)
 
 
-class MessageCreateView(CreateView):
-    form_class = MessageForm
-    template_name = "users/message_create.html"
-    success_url = reverse_lazy("users:user_account")
+class MessageCreateView(View):
+    def get(self, request, *args, **kwargs):
+        recipient = Profile.objects.get(id=kwargs.get("pk"))
+        form = MessageForm()
+        context = {"recipient": recipient, "form": form}
+        return render(request, "users/message_create.html", context)
+
+    def post(self, request, *args, **kwargs):
+        recipient = Profile.objects.get(id=kwargs.get("pk"))
+        try:
+            sender = request.user.profile
+        except:
+            sender = None
+
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = sender
+            message.recipient = recipient
+
+            if sender:
+                message.name = sender.user.name
+                message.email = sender.user.email
+
+            message.save()
+
+        return redirect("users:user_profile", pk=recipient.id)

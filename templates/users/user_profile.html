@@ -12,7 +12,9 @@
               <img class="avatar avatar--xl" src="{{ profile.imageURL }}" />
               <h2 class="dev__name">{{ profile.user.name|title }}</h2>
               <p class="dev__title">{{ profile.headline|title }}</p>
-              <p class="dev__location">Based in {{ profile.location }}</p>
+              {% if profile.location %}
+                <p class="dev__location">Based in {{ profile.location }}</p>
+              {% endif %}
               <ul class="dev__social">
                 {% if profile.social_github %}
                   <li>
@@ -40,7 +42,7 @@
                   </li>
                 {% endif %}
               </ul>
-              <a href="{% url 'users:message_create' %}" class="btn btn--sub btn--lg">Send Message </a>
+              <a href="{% url 'users:message_create' profile.id %}" class="btn btn--sub btn--lg">Send Message </a>
             </div>
           </div>
         </div>
@@ -54,26 +56,24 @@
           <div class="devInfo">
             <h3 class="devInfo__title">Skills</h3>
             <div class="devInfo__skills">
-              {% for skill in profile.skills.all|slice:":3" %}
+              {% for skill in skills %}
                 <div class="devSkill">
                     <h4 class="devSkill__title">{{ skill.name }}</h4>
                     <p class="devSkill__info">
                     {{ skill.description }}
                     </p>
                 </div>
-              {% empty %}
-                <p>Add a <a href="">Skill</a></p>
               {% endfor %}
 
-              {% if profile.skills.count > 3 %}
-                <h3 class="devInfo__subtitle">Other Skills</h3>
-                <div class="devInfo__otherSkills">
-                  {% for skill in profile.skills.all|slice:"3:" %}
-                      <span class="tag tag--pill tag--sub tag--lg">
-                      <small>{{ skill.name }}</small>
-                      </span>
-                  {% endfor %}
-                </div>
+                {% if other_skills %}
+                  <h3 class="devInfo__subtitle">Other Skills</h3>
+                  <div class="devInfo__otherSkills">
+                      {% for skill in other_skills %}
+                        <span class="tag tag--pill tag--sub tag--lg">
+                        <small>{{ skill.name }}</small>
+                        </span>
+                    {% endfor %}
+                  </div>
               {% endif %}
             </div>
           </div>
@@ -103,8 +103,6 @@
                       </a>
                     </div>
                 </div>
-                {% empty %}
-                <p>Add a <a href="">Project</a></p>
               {% endfor %}
             </div>
           </div>

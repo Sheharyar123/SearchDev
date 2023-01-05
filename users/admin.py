@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import Skill, Profile
+from .models import Skill, Profile, Message
 
 # Register your models here.
 class SkillInline(admin.TabularInline):
@@ -21,3 +21,4 @@ class ProfileAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Message)

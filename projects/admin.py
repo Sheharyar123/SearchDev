@@ -13,7 +13,7 @@ class ProjectAdmin(admin.ModelAdmin):
     """Shows the admin page for projects"""
 
     inlines = [ReviewInline]
-    list_display = ("title", "demo_link", "created_on", "updated_on")
+    list_display = ("title", "source_link", "demo_link", "created_on", "updated_on")
     search_fields = ("title", "description")
     raw_id_fields = ["owner"]
 
