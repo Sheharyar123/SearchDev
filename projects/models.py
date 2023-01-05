@@ -63,6 +63,19 @@ class Project(models.Model):
             return 0
         return round(up_votes / total_votes * 100)
 
+    @property
+    def imageURL(self):
+        try:
+            url = self.featured_image.url
+        except:
+            url = ""
+        return url
+
+    @property
+    def reviewers(self):
+        queryset = self.reviews.all().values_list("owner__id", flat=True)
+        return queryset
+
 
 class Review(models.Model):
     """Review Model"""

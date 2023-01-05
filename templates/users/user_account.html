@@ -14,7 +14,7 @@
               <a class="tag tag--pill tag--main settings__btn" href="{% url 'users:user_account_edit' %}">
                 <i class="im im-edit"></i> Edit
               </a>
-              <img class="avatar avatar--xl dev__avatar" src="{{ profile.user_img.url }}" />
+              <img class="avatar avatar--xl dev__avatar" src="{{ profile.imageURL }}" />
               <h2 class="dev__name">{{ profile.user.name|title }}</h2>
               <p class="dev__title">{{ profile.headline }}</p>
               <p class="dev__location">Based in {{ profile.location }}</p>
@@ -58,7 +58,7 @@
           </div>
           <div class="settings">
             <h3 class="settings__title">Skills</h3>
-            <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'users:create_skill' %}">
+            <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'users:skill_create' %}">
               <i class="fa-sharp fa-solid fa-plus"></i> Add Skill
             </a>
           </div>
@@ -73,8 +73,8 @@
                   </p>
                 </td>
                 <td class="settings__tableActions">
-                  <a class="tag tag--pill tag--main settings__btn" href="{% url 'users:update_skill' skill.id %}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-                  <a class="tag tag--pill tag--main settings__btn" href="{% url 'users:delete_skill' skill.id %}"><i class="fa-solid fa-circle-xmark"></i>
+                  <a class="tag tag--pill tag--main settings__btn" href="{% url 'users:skill_update' skill.id %}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                  <a class="tag tag--pill tag--main settings__btn" href="{% url 'users:skill_delete' skill.id %}"><i class="fa-solid fa-circle-xmark"></i>
                     Delete</a>
                 </td>
               </tr>
@@ -90,7 +90,7 @@
           {% for project in profile.projects.all %}
             <tr>
               <td class="settings__thumbnail">
-                <a href="single-project.html"><img src="{{ project.featured_img.url }}" alt="Project Thumbnail" /></a>
+                <a href="single-project.html"><img src="{{ project.imageURL }}" alt="Project Thumbnail" /></a>
               </td>
               <td class="settings__tableInfo">
                 <a href="single-project.html">{{ project.headline|title }}</a>

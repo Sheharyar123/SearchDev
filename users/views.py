@@ -11,9 +11,9 @@ from django.views.generic import (
 from django.urls import reverse_lazy
 
 from projects.models import Project
-from .models import Profile, Skill
+from .models import Profile, Skill, Message
 
-from .forms import ProfileForm, SkillForm
+from .forms import ProfileForm, SkillForm, MessageForm
 
 
 class UserProfileListView(ListView):
@@ -27,11 +27,13 @@ class UserProfileListView(ListView):
     def get_queryset(self, *args, **kwargs):
         query = self.request.GET.get("q")
         if query:
+            skills = Skill.objects.filter(name__icontains=query)
             return Profile.objects.filter(
                 Q(headline__icontains=query)
                 | Q(user__name__icontains=query)
                 | Q(location__icontains=query)
                 | Q(bio__icontains=query)
+                | Q(skill__in=skills)
             ).distinct()
         else:
             return Profile.objects.exclude(headline__exact=None)
@@ -79,9 +81,9 @@ class UserAccountEditView(View):
             return redirect("users:user_account")
 
 
-class CreateSkillView(CreateView):
+class SkillCreateView(CreateView):
     form_class = SkillForm
-    template_name = "users/create_skill.html"
+    template_name = "users/skill_create.html"
     success_url = reverse_lazy("users:user_account")
 
     def form_valid(self, form):
@@ -90,14 +92,39 @@ class CreateSkillView(CreateView):
         return super().form_valid(form)
 
 
-class UpdateSkillView(UpdateView):
+class SkillUpdateView(UpdateView):
     model = Skill
     form_class = SkillForm
-    template_name = "users/update_skill.html"
+    template_name = "users/skill_update.html"
     success_url = reverse_lazy("users:user_account")
 
 
-class DeleteSkillView(DeleteView):
+class SkillDeleteView(DeleteView):
     model = Skill
-    template_name = "users/delete_skill.html"
+    template_name = "users/skill_delete.html"
+    success_url = reverse_lazy("users:user_account")
+
+
+class MessageListView(View):
+    def get(self, request, *args, **kwargs):
+        recipient = request.user.profile
+        new_messages = Message.objects.filter(recipient=recipient, is_read=False)
+        old_messages = Message.objects.filter(recipient=recipient, is_read=True)
+        context = {"new_messages": new_messages, "old_messages": old_messages}
+        return render(request, "users/inbox.html", context)
+
+
+class MessageDetailView(View):
+    def get(self, request, *args, **kwargs):
+        message = Message.objects.get(id=kwargs["pk"])
+        if message.is_read == False:
+            message.is_read = True
+            message.save()
+        context = {"message": message}
+        return render(request, "users/message_detail.html", context)
+
+
+class MessageCreateView(CreateView):
+    form_class = MessageForm
+    template_name = "users/message_create.html"
     success_url = reverse_lazy("users:user_account")

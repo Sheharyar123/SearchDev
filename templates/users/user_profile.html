@@ -9,7 +9,7 @@
         <div class="column column--1of3">
           <div class="card text-center">
             <div class="card__body dev">
-              <img class="avatar avatar--xl" src="{{ profile.user_img.url }}" />
+              <img class="avatar avatar--xl" src="{{ profile.imageURL }}" />
               <h2 class="dev__name">{{ profile.user.name|title }}</h2>
               <p class="dev__title">{{ profile.headline|title }}</p>
               <p class="dev__location">Based in {{ profile.location }}</p>
@@ -40,7 +40,7 @@
                   </li>
                 {% endif %}
               </ul>
-              <a href="#" class="btn btn--sub btn--lg">Send Message </a>
+              <a href="{% url 'users:message_create' %}" class="btn btn--sub btn--lg">Send Message </a>
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@
                 <div class="column">
                     <div class="card project">
                       <a href="{{ project.get_absolute_url }}" class="project">
-                          <img class="project__thumbnail" src="{{ project.featured_img.url }}" alt="project thumbnail" />
+                          <img class="project__thumbnail" src="{{ project.imageURL }}" alt="project thumbnail" />
                           <div class="card__body">
                           <h3 class="project__title">{{ project.title|title }}</h3>
                           <p><a class="project__author" href="{{ project.profile.get_absolute_url }}">By {{ project.owner.user.name|title }}</a></p>

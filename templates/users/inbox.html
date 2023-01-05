@@ -1,0 +1,38 @@
+{% extends '_base.html' %}
+
+{% block title %}Inbox{% endblock title %}
+
+{% block content %}
+
+  <!-- Main Section -->
+  <main class="inbox my-xl">
+    <div class="content-box">
+        {% with total_messages=new_messages.count %}
+            <h3 class="inbox__title">New Messages(<span>{{ total_messages }}</span>)</h3>
+        {% endwith %}
+        {% if new_messages or old_messages %}  
+            <ul class="messages">
+                {% for message in new_messages %}
+                    <li class="message message--unread">
+                        <a href="{{ message.get_absolute_url }}">
+                            <span class="message__author">{{ message.name }}</span>
+                            <span class="message__subject">{{ message.subject }}</span>
+                            <span class="message__date">{{ message.created_on }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+                {% for message in old_messages %}
+                    <li class="message">
+                        <a href="{{ message.get_absolute_url }}">
+                            <span class="message__author">{{ message.name }}</span>
+                            <span class="message__subject">{{ message.subject }}</span>
+                            <span class="message__date">{{ message.created_on }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+  </main>
+
+{% endblock content %}

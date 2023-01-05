@@ -1,11 +1,11 @@
-from django import forms
+from django.forms import ModelForm, widgets, CheckboxSelectMultiple
 from .models import Review, Project
 
 
-class ReviewForm(forms.ModelForm):
+class ReviewForm(ModelForm):
     class Meta:
         model = Review
-        fields = ["value", "body"]
+        fields = ["body", "value"]
 
         labels = {"value": "Place your vote", "body": "Add a comment with your vote"}
 
@@ -16,12 +16,12 @@ class ReviewForm(forms.ModelForm):
             field.widget.attrs.update({"class": "input"})
 
 
-class ProjectForm(forms.ModelForm):
+class ProjectForm(ModelForm):
     class Meta:
         model = Project
         fields = ["title", "featured_img", "description", "demo_link", "source_link"]
         widgets = {
-            "tags": forms.CheckboxSelectMultiple(),
+            "tags": CheckboxSelectMultiple(),
         }
 
     def __init__(self, *args, **kwargs):

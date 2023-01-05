@@ -18,12 +18,14 @@ class ProjectListView(ListView):
     def get_queryset(self):
         query = self.request.GET.get("q")
         if query:
+            tags = Tag.objects.filter(name__icontains=query)
             return sorted(
                 Project.objects.filter(
                     Q(title__icontains=query)
                     | Q(owner__user__name__icontains=query)
                     | Q(tags__name__icontains=query)
                     | Q(description__icontains=query)
+                    | Q(tags__in=tags)
                 ).distinct(),
                 key=lambda x: (x.vote_ratio, x.vote_count, x.created_on),
                 reverse=True,
@@ -50,7 +52,7 @@ class ProjectDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = ReviewForm()
+        context["form"] = ReviewForm
         owner = self.request.user.profile
         context["commented"] = Review.objects.filter(
             owner=owner, project=self.get_object()
@@ -65,8 +67,6 @@ class ProjectDetailView(DetailView):
             review.project = self.get_object()
             review.save()
             return redirect(self.get_object().get_absolute_url())
-        else:
-            return None
 
 
 class ProjectCreateView(View):

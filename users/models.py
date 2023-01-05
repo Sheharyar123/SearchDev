@@ -40,6 +40,14 @@ class Profile(models.Model):
         """Canonical url for each user profile"""
         return reverse("users:user_profile", args=[self.id])
 
+    @property
+    def imageURL(self):
+        try:
+            url = self.featured_image.url
+        except:
+            url = ""
+        return url
+
 
 class Skill(models.Model):
     """Skill Model"""
@@ -54,3 +62,36 @@ class Skill(models.Model):
     def __str__(self):
         """Defines representation of skill object"""
         return self.name
+
+
+class Message(models.Model):
+    """Message Model"""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    sender = models.ForeignKey(
+        Profile, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    recipient = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="messages",
+    )
+    name = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255, unique=True)
+    subject = models.CharField(max_length=255, null=True, blank=True)
+    body = models.TextField()
+    is_read = models.BooleanField(default=False, null=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["is_read", "-updated_on", "-created_on"]
+
+    def __str__(self):
+        return self.subject[:50]
+
+    def get_absolute_url(self):
+        """Canonical url for each user message"""
+        return reverse("users:message_detail", args=[self.id])
