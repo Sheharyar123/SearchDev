@@ -31,19 +31,15 @@
         <div class="text-center">
           <p>Not a member? <a href="{% url 'account_signup' %}">Register</a></p>
           <p>or sign up with:</p>
-          <button type="button" class="btn btn-link btn-floating mx-1">
+          <a href="{% provider_login_url 'facebook' %}" class="btn btn-link btn-floating mx-1">
             <i class="fab fa-facebook-f"></i>
-          </button>
+          </a>
       
           <a href="{% provider_login_url 'google' %}" class="btn btn-link btn-floating mx-1">
             <i class="fab fa-google"></i>
           </a>
       
-          <button type="button" class="btn btn-link btn-floating mx-1">
-            <i class="fab fa-twitter"></i>
-          </button>
-      
-          <a href="{% provider_login_url 'google' %}"class="btn btn-link btn-floating mx-1">
+          <a href="{% provider_login_url 'github' %}"class="btn btn-link btn-floating mx-1">
             <i class="fab fa-github"></i>
           </a>
         </div>
