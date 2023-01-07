@@ -51,10 +51,12 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.github",
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.twitter",
+    "rest_framework",
     # Local
     "accounts.apps.AccountsConfig",
     "projects.apps.ProjectsConfig",
     "users.apps.UsersConfig",
+    "api.apps.ApiConfig",
 ]
 
 MIDDLEWARE = [
