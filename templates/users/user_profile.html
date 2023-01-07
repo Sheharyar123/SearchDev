@@ -1,6 +1,6 @@
 {% extends '_base.html' %}
 
-{% block title %}{{ profile.user.name }}'s Profile{% endblock title %}
+{% block title %}{{ profile.name }}'s Profile{% endblock title %}
 
 {% block content %}
   <main class="profile my-md">
@@ -10,7 +10,7 @@
           <div class="card text-center">
             <div class="card__body dev">
               <img class="avatar avatar--xl" src="{{ profile.imageURL }}" />
-              <h2 class="dev__name">{{ profile.user.name|title }}</h2>
+              <h2 class="dev__name">{{ profile.name|title }}</h2>
               <p class="dev__title">{{ profile.headline|title }}</p>
               {% if profile.location %}
                 <p class="dev__location">Based in {{ profile.location }}</p>
@@ -87,7 +87,7 @@
                           <img class="project__thumbnail" src="{{ project.imageURL }}" alt="project thumbnail" />
                           <div class="card__body">
                           <h3 class="project__title">{{ project.title|title }}</h3>
-                          <p><a class="project__author" href="{{ project.profile.get_absolute_url }}">By {{ project.owner.user.name|title }}</a></p>
+                          <p><a class="project__author" href="{{ project.profile.get_absolute_url }}">By {{ project.owner.name|title }}</a></p>
                           <p class="project--rating">
                               <span style="font-weight: bold;">{{ project.vote_ratio }}%</span> Postitive
                               Feedback ({{ project.vote_count }} Vote{{ project.vote_count|pluralize }})

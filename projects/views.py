@@ -84,6 +84,7 @@ class ProjectCreateView(View):
             project.save()
 
             for tag in newtags:
+                tag = tag.upper()
                 tag, created = Tag.objects.get_or_create(name=tag)
                 project.tags.add(tag)
             return redirect("users:user_account")
@@ -107,7 +108,8 @@ class ProjectUpdateView(View):
             project.save()
 
             for tag in newtags:
-                tag, created = Tag.objects.get_or_create(name=tag)
+                tag = tag.upper()
+                tag, created = Tag.objects.get_or_create(name__iexact=tag)
                 project.tags.add(tag)
             return redirect("users:user_account")
 

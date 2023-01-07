@@ -30,7 +30,7 @@ SECRET_KEY = "django-insecure-!*#6l!2)j^rh2xu$2k))u=#(t$j-10+h!739klc&b^kcd7m4b1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -167,6 +167,7 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = "none"
 # Can be dangerous
 ACCOUNT_LOGOUT_ON_GET = True
 
@@ -205,6 +206,7 @@ SOCIALACCOUNT_PROVIDERS = {
         "FIELDS": [
             "id",
             "first_name",
+            "email",
             "last_name",
             "middle_name",
             "name",

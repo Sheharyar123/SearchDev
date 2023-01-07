@@ -2,6 +2,8 @@ from django import forms
 
 from allauth.account.forms import LoginForm, SignupForm, ResetPasswordKeyForm
 
+from users.models import Profile
+
 
 class CustomLoginForm(LoginForm):
     def __init__(self, *args, **kwargs):
@@ -48,8 +50,11 @@ class CustomSignupForm(SignupForm):
 
     def save(self, request):
         user = super(CustomSignupForm, self).save(request)
+        profile = Profile.objects.get(user=user)
         user.name = self.cleaned_data["name"]
+        profile.name = user.name
         user.save()
+        profile.save()
 
 
 class CustomResetPasswordKeyForm(ResetPasswordKeyForm):

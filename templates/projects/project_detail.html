@@ -35,7 +35,7 @@
               alt="portfolio thumbnail"
             />
             <a href="{{ project.owner.get_absolute_url }}" class="singleProject__developer"
-              >{{ project.owner.user.name }}</a
+              >{{ project.owner.name }}</a
             >
             <h2 class="singleProject__title">
               {{ project.title }}
@@ -84,7 +84,7 @@
                       </a>
                       <div class="comment__details">
                         <a href="{{ review.owner.get_absolute_url }}" class="comment__author"
-                          >{{ review.owner.user.name }}</a
+                          >{{ review.owner.name }}</a
                         >
                         <p class="comment__info">
                         {{ review.body }}

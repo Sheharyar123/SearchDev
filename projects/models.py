@@ -7,7 +7,7 @@ from users.models import Profile
 class Tag(models.Model):
     """Tag Model"""
 
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 

@@ -11,6 +11,7 @@ class Profile(models.Model):
     user = models.OneToOneField(
         get_user_model(), on_delete=models.CASCADE, related_name="profile"
     )
+    name = models.CharField(max_length=255)
     headline = models.CharField(max_length=255, null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
     location = models.CharField(max_length=100, null=True, blank=True)

@@ -12,12 +12,18 @@
           <div class="card text-center">
             <div class="card__body dev">
               <a class="tag tag--pill tag--main settings__btn" href="{% url 'users:user_account_edit' %}">
-                <i class="im im-edit"></i> Edit
+                <i class="fa-solid fa-pen-to-square fa-fw"></i> Edit
               </a>
               <img class="avatar avatar--xl dev__avatar" src="{{ profile.imageURL }}" />
-              <h2 class="dev__name">{{ profile.user.name|title }}</h2>
-              <p class="dev__title">{{ profile.headline }}</p>
-              <p class="dev__location">Based in {{ profile.location }}</p>
+              {% if request.user.name or profile.name %}
+                <h2 class="dev__name">{{  request.user.name|title }}</h2>
+              {% endif %}
+              {% if profile.headline %}
+                <p class="dev__title">{{ profile.headline }}</p>
+              {% endif %}
+              {% if profile.location %}
+                <p class="dev__location">Based in {{ profile.location }}</p>
+              {% endif %}
               <ul class="dev__social">
                 {% if profile.social_github %}
                   <li>
@@ -52,14 +58,16 @@
         <div class="column column--2of3">
           <div class="devInfo">
             <h3 class="devInfo__title">About Me</h3>
-            <p class="devInfo__about">
-              {{ profile.bio|linebreaks }}
-            </p>
+            {% if profile.bio %}
+              <p class="devInfo__about">
+                {{ profile.bio|linebreaks }}
+              </p>
+            {% endif %}
           </div>
           <div class="settings">
             <h3 class="settings__title">Skills</h3>
             <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'users:skill_create' %}">
-              <i class="fa-sharp fa-solid fa-plus"></i> Add Skill
+              <i class="fa-sharp fa-solid fa-plus fa-fw"></i> Add Skill
             </a>
           </div>
 
@@ -73,8 +81,8 @@
                   </p>
                 </td>
                 <td class="settings__tableActions">
-                  <a class="tag tag--pill tag--main settings__btn" href="{% url 'users:skill_update' skill.id %}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-                  <a class="tag tag--pill tag--main settings__btn" href="{% url 'users:skill_delete' skill.id %}"><i class="fa-solid fa-circle-xmark"></i>
+                  <a class="tag tag--pill tag--main settings__btn" href="{% url 'users:skill_update' skill.id %}"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit</a>
+                  <a class="tag tag--pill tag--main settings__btn" href="{% url 'users:skill_delete' skill.id %}"><i class="fa-solid fa-circle-xmark fa-fw"></i>
                     Delete</a>
                 </td>
               </tr>
@@ -83,24 +91,26 @@
 
           <div class="settings">
             <h3 class="settings__title">Projects</h3>
-            <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'projects:project_create' %}"><i class="fa-sharp fa-solid fa-plus"></i> Add Project</a>
+            <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'projects:project_create' %}">
+              <i class="fa-sharp fa-solid fa-plus fa-fw"></i> Add Project
+            </a>
           </div>
 
           <table class="settings__table">
           {% for project in profile.projects.all %}
             <tr>
               <td class="settings__thumbnail">
-                <a href="single-project.html"><img src="{{ project.imageURL }}" alt="Project Thumbnail" /></a>
+                <a href="{{ project.get_absolute_url }}"><img src="{{ project.imageURL }}" alt="Project Thumbnail" /></a>
               </td>
               <td class="settings__tableInfo">
-                <a href="single-project.html">{{ project.headline|title }}</a>
+                <a href="{{ project.get_absolute_url }}">{{ project.headline|title }}</a>
                 <p>
-                  {{ project.description|linebreaks|truncatewords:50 }}
+                  {{ project.description|linebreaks|truncatewords:20 }}
                 </p>
               </td>
               <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href="{% url 'projects:project_update' project.id %}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-                <a class="tag tag--pill tag--main settings__btn" href="{% url 'projects:project_delete' project.id %}"><i class="im im-x-mark-circle-o"></i>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url 'projects:project_update' project.id %}"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit</a>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url 'projects:project_delete' project.id %}"><i class="fa-solid fa-circle-xmark fa-fw"></i>
                   Delete</a>
               </td>
             </tr>

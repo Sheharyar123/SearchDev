@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views.generic import (
@@ -31,7 +32,7 @@ class UserProfileListView(ListView):
             skills = Skill.objects.filter(name__icontains=query)
             return Profile.objects.filter(
                 Q(headline__icontains=query)
-                | Q(user__name__icontains=query)
+                | Q(name__icontains=query)
                 | Q(location__icontains=query)
                 | Q(bio__icontains=query)
                 | Q(skills__in=skills)
@@ -74,12 +75,17 @@ class UserAccountEditView(View):
     def get(self, request, *args, **kwargs):
         profile = request.user.profile
         form = ProfileForm(instance=profile)
-        return render(request, "users/user_account_edit.html", {"form": form})
+        context = {"form": form}
+        return render(request, "users/user_account_edit.html", context)
 
     def post(self, request, *args, **kwargs):
         profile = request.user.profile
         form = ProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid:
+        if form.is_valid():
+            user = request.user
+            user_name = form.cleaned_data["name"]
+            user.name = user_name
+            user.save()
             form.save()
             return redirect("users:user_account")
 
