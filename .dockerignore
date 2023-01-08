@@ -1,0 +1,11 @@
+# Git
+.git
+.gitignore
+
+# Docker
+.docker
+
+# Virtual Environments
+.env/
+.venv/
+venv/
