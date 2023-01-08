@@ -1,10 +1,12 @@
+import re
 from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import View, ListView, DetailView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import ReviewForm, ProjectForm
-from .models import Project, Review, Tag
+from .models import Project, Tag
 
 # Create your views here.
 class ProjectListView(ListView):
@@ -53,10 +55,6 @@ class ProjectDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = ReviewForm
-        owner = self.request.user.profile
-        context["commented"] = Review.objects.filter(
-            owner=owner, project=self.get_object()
-        ).exists()
         return context
 
     def post(self, request, *args, **kwargs):
@@ -69,7 +67,7 @@ class ProjectDetailView(DetailView):
             return redirect(self.get_object().get_absolute_url())
 
 
-class ProjectCreateView(View):
+class ProjectCreateView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         form = ProjectForm()
         context = {"form": form}
@@ -84,13 +82,15 @@ class ProjectCreateView(View):
             project.save()
 
             for tag in newtags:
-                tag = tag.upper()
-                tag, created = Tag.objects.get_or_create(name=tag)
-                project.tags.add(tag)
+                valid_tag = re.search("[a-zA-Z0-9#+$()]+", tag)
+                if valid_tag:
+                    name = tag.lower()
+                    tag, created = Tag.objects.get_or_create(name=name)
+                    project.tags.add(tag)
             return redirect("users:user_account")
 
 
-class ProjectUpdateView(View):
+class ProjectUpdateView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         project = Project.objects.get(id=kwargs["pk"])
         tags = ",".join([tag.name for tag in project.tags.all()])
@@ -108,13 +108,19 @@ class ProjectUpdateView(View):
             project.save()
 
             for tag in newtags:
-                tag = tag.upper()
-                tag, created = Tag.objects.get_or_create(name__iexact=tag)
-                project.tags.add(tag)
+                valid_tag = re.search("[a-zA-Z0-9#+$()]+", tag)
+                if valid_tag:
+                    name = tag.lower()
+                    try:
+                        check_tag = Tag.objects.get(name=name)
+                    except Tag.DoesNotExist:
+                        tag = Tag.objects.create(name=name)
+                        project.tags.add(tag)
+
             return redirect("users:user_account")
 
 
-class ProjectDeleteView(DeleteView):
+class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = Project
     template_name = "projects/project_delete.html"
     success_url = reverse_lazy("users:user_account")

@@ -1,4 +1,5 @@
 {% extends '_base.html' %}
+{% load static thumbnail %}
 
 {% block title %}{{ project.title }}{% endblock title %}
 
@@ -12,7 +13,7 @@
             <div class="singleProject__toolStack">
                 {% for tag in project.tags.all %}
                     <span class="tag tag--pill tag--sub tag--lg">
-                        <small>{{ tag.name }}</small>
+                        <small>{{ tag.name|upper }}</small>
                     </span>
                 {% endfor %}
             </div>
@@ -29,11 +30,12 @@
             {% endif %}
           </div>
           <div class="column column--2of3">
-            <img
-              class="singleProject__preview"
-              src={{ project.imageURL }}
-              alt="portfolio thumbnail"
-            />
+            {% thumbnail project.featured_img 800x400 crop as thumb %}
+            {% if thumb %}
+                <img src="{{ STATIC_URL }}{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="" />
+            {% else %}
+                <img src="{{ STATIC_URL }}photos/projects/default.jpg" alt=""/>
+            {% endif %}
             <a href="{{ project.owner.get_absolute_url }}" class="singleProject__developer"
               >{{ project.owner.name }}</a
             >

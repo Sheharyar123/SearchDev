@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.twitter",
     "rest_framework",
     "corsheaders",
+    "easy_thumbnails",
     # Local
     "accounts.apps.AccountsConfig",
     "projects.apps.ProjectsConfig",
@@ -128,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Karachi"
 
 USE_I18N = True
 

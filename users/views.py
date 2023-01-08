@@ -10,6 +10,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
 from projects.models import Project
@@ -71,7 +72,7 @@ class UserAccountView(View):
         return render(request, "users/user_account.html", {"profile": profile})
 
 
-class UserAccountEditView(View):
+class UserAccountEditView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         profile = request.user.profile
         form = ProfileForm(instance=profile)
@@ -90,7 +91,7 @@ class UserAccountEditView(View):
             return redirect("users:user_account")
 
 
-class SkillCreateView(CreateView):
+class SkillCreateView(LoginRequiredMixin, CreateView):
     form_class = SkillForm
     template_name = "users/skill_create.html"
     success_url = reverse_lazy("users:user_account")
@@ -101,20 +102,20 @@ class SkillCreateView(CreateView):
         return super().form_valid(form)
 
 
-class SkillUpdateView(UpdateView):
+class SkillUpdateView(LoginRequiredMixin, UpdateView):
     model = Skill
     form_class = SkillForm
     template_name = "users/skill_update.html"
     success_url = reverse_lazy("users:user_account")
 
 
-class SkillDeleteView(DeleteView):
+class SkillDeleteView(LoginRequiredMixin, DeleteView):
     model = Skill
     template_name = "users/skill_delete.html"
     success_url = reverse_lazy("users:user_account")
 
 
-class MessageListView(View):
+class MessageListView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         recipient = request.user.profile
         new_messages = Message.objects.filter(recipient=recipient, is_read=False)
@@ -123,7 +124,7 @@ class MessageListView(View):
         return render(request, "users/inbox.html", context)
 
 
-class MessageDetailView(View):
+class MessageDetailView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         message = Message.objects.get(id=kwargs["pk"])
         if message.is_read == False:
@@ -133,7 +134,7 @@ class MessageDetailView(View):
         return render(request, "users/message_detail.html", context)
 
 
-class MessageCreateView(View):
+class MessageCreateView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         recipient = Profile.objects.get(id=kwargs.get("pk"))
         form = MessageForm()
