@@ -11,7 +11,9 @@
             <div class="card__body dev">
               <img class="avatar avatar--xl" src="{{ profile.imageURL }}" />
               <h2 class="dev__name">{{ profile.name|title }}</h2>
-              <p class="dev__title">{{ profile.headline|title }}</p>
+              {% if profile.headline %}
+                <p class="dev__title">{{ profile.headline|title }}</p>
+              {% endif %}
               {% if profile.location %}
                 <p class="dev__location">Based in {{ profile.location }}</p>
               {% endif %}
