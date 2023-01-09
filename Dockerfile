@@ -9,18 +9,15 @@ ENV PYTHONDONTWRITEBYCODE 1
 WORKDIR /code
 
 # Copy Requirementss
-COPY ./requirements.txt /tmp/requirements.txt
+COPY ./requirements.txt .
 
 # Install Requirements
-RUN python -m venv /py && \
-    /py/bin/pip install --upgrade pip && \
+RUN pip install --upgrade pip && \
     # Dependencies for Psycopg2
     apk add --update --no-cache postgresql-client && \
     apk add --update --no-cache --virtual .tmp-build-deps \
         build-base postgresql-dev musl-dev && \
-    /py/bin/pip install -r /tmp/requirements.txt && \
-    rm -rf /tmp && \
-    apk del .tmp-build-deps
+    pip install -r requirements.txt 
 
 # Copy Project
 COPY . /code/
