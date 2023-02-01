@@ -19,7 +19,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "searchdev.fly.dev"]
 
 # Application definition
 
@@ -239,6 +239,9 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
 }
+
+# CSRF Settings
+CSRF_TRUSTED_ORIGINS = ["http://searchdev.fly.dev", "https://searchdev.fly.dev"]
 
 
 # Security Settings

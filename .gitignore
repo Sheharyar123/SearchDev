@@ -144,3 +144,7 @@ docker-compose-prod.yml
 
 # Static Files
 staticfiles/
+
+# Fly
+fly.toml
+database.txt

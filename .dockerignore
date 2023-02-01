@@ -1,11 +1,6 @@
-# Git
-.git
-.gitignore
-
-# Docker
+fly.toml
+.git/
+*.sqlite3
 .docker
-
-# Virtual Environments
-.env/
-.venv/
-venv/
+env/
+database.txt
