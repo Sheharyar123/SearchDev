@@ -22,5 +22,7 @@ RUN pip install --upgrade pip && \
 # Copy Project
 COPY . /code/
 
-# Expose the port 8000 for usage
+# expose port 8000
 EXPOSE 8000
+
+CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "search_dev.wsgi:application"]
