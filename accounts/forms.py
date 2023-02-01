@@ -1,6 +1,7 @@
 from django import forms
 
 from allauth.account.forms import LoginForm, SignupForm, ResetPasswordKeyForm
+from allauth.socialaccount.models import SocialAccount
 
 from users.models import Profile
 
@@ -67,13 +68,3 @@ class CustomResetPasswordKeyForm(ResetPasswordKeyForm):
     password2.widget.attrs.update(
         {"class": "input input--password", "placeholder": "••••••••"}
     )
-
-    # def __init__(self, *args, **kwargs):
-    #     self.fields["password1"].widget = forms.PasswordInput(
-    #         attrs={"class": "input input--password", "placeholder": "••••••••"}
-    #     )
-    #     self.fields["password1"].label = "Change Password"
-    #     self.fields["password2"].widget = forms.PasswordInput(
-    #         attrs={"class": "input input--password", "placeholder": "••••••••"}
-    #     )
-    #     self.fields["password2"].label = "Confirm Password"
