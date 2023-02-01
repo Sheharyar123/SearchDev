@@ -141,3 +141,6 @@ mysite_data.json
 
 # Docker Compose Prod
 docker-compose-prod.yml
+
+# Static Files
+staticfiles/
