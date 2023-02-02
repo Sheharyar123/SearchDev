@@ -159,7 +159,7 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-SITE_ID = 5
+SITE_ID = 6
 LOGIN_REDIRECT_URL = "users:users_profiles"
 ACCOUNT_LOGOUT_REDIRECT = "users:user_profile"
 ACCOUNT_AUTHENTICATION_METHOD = "email"
