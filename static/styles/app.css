@@ -677,11 +677,19 @@ img {
   max-width: 65rem;
 }
 
+.auth__header {
+  padding-top: 20px;
+}
+
 @media screen and (min-width: 650px) {
   .auth > .card {
     padding: 5rem 8rem;
     width: 95%;
     max-width: 65rem;
+  }
+
+  .auth__header {
+    padding-top: 120px;
   }
 }
 

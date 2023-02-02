@@ -1,6 +1,15 @@
 fly.toml
 .git/
+*.pyc
+*.pyo
+*.mo
+*.db
+*.css.map
+*.egg-info
+*.sql.gz
+.cache
+.project
+.idea
 *.sqlite3
 .docker
 env/
-database.txt
