@@ -7,7 +7,7 @@
 {% block content %}
     <div class="auth">
       <div class="card">
-        <div class="auth__header text-center">
+        <div class="auth__header text-center" style="padding-top: 60px;">
           <a href="{% url 'users:users_profiles' %}">
             <img src="{% static 'img/icon.svg' %}" alt="icon" />
           </a>
@@ -25,12 +25,12 @@
             {% endfor %}
             <div class="auth__actions">
                 <input class="btn btn--sub btn--lg" type="submit" value="Log In" />
-                <a href="{% url 'account_reset_password' %}">Forget Password?</a>
+                <a href="{% url 'account_reset_password' %}">Forgot Password?</a>
             </div>
         </form>
-        <div class="text-center">
+        <div class="text-center" style="margin-bottom: 20px;">
           <p>Not a member? <a href="{% url 'account_signup' %}">Register</a></p>
-          <p>or sign up with:</p>
+          <p style="margin-bottom: 10px;">or sign up with:</p>
           <a href="{% provider_login_url 'facebook' %}" class="btn btn-link btn-floating mx-1">
             <i class="fab fa-facebook-f"></i>
           </a>
@@ -43,7 +43,22 @@
             <i class="fab fa-github"></i>
           </a>
         </div>
+        {% if form.errors %}
+          {% for field in form %}
+              {% for error in field.errors %}
+                <div class="text-center">
+                    <strong class="form-error">{{ error|escape }}</strong>
+                </div>
+              {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+            <div class="text-center">
+                <strong class="form-error">{{ error|escape }}</strong>
+            </div>
+          {% endfor %}
+      {% endif %}
       </div>
+      
     </div>
 
 {% endblock content %}

@@ -9,21 +9,20 @@
 {% block content %}
     <div class="auth">
         <div class="card">
-            <div class="auth__header text-center">
+            <div class="auth__header text-center" style="padding-top: 60px;">
                 <h1>{% trans "Confirm E-mail Address" %}</h1>
             </div>
             {% if confirmation %}
-                    {% user_display confirmation.email_address.user as user_display %}
-                    <p>
-                    {% blocktrans with confirmation.email_address.email as email %}Please 
-                    confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an e-mail address 
-                    for user {{ user_display }}.{% endblocktrans %}
-                    </p>
-                    <form method="post" class="form auth__form" action="{% url 'account_confirm_email' confirmation.key %}">
-                    {% csrf_token %}
-                        <button class="btn btn--sub btn--lg" type="submit">{% trans 'Confirm' %}</button>
-                    </form>
-
+                {% user_display confirmation.email_address.user as user_display %}
+                <p>
+                {% blocktrans with confirmation.email_address.email as email %}Please 
+                confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an e-mail address 
+                for user {{ user_display }}.{% endblocktrans %}
+                </p>
+                <form method="post" class="form auth__form" action="{% url 'account_confirm_email' confirmation.key %}">
+                {% csrf_token %}
+                    <button class="btn btn--sub btn--lg" type="submit">{% trans 'Confirm' %}</button>
+                </form>
             {% else %}
                 {% url 'account_email' as email_url %}
                 <p>
@@ -31,9 +30,22 @@
                 Please <a href="{{ email_url }}">issue a new e-mail confirmation request</a>.
                 {% endblocktrans %}
                 </p>
-
             {% endif %}
         </div>
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="text-center form-error">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="text-center form-error">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 
 {% endblock content %}

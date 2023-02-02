@@ -20,12 +20,12 @@
 
   <body>
     {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert--{{message.tags}}">
+        {% for message in messages %}
+        <div class="alert alert--{{message.tags}}" id="box">
             <p class="alert__message">{{message}}</p>
-            <button class="alert__close">x</button>
+            {% comment %} <button class="alert__close">x</button> {% endcomment %}
         </div>
-      {% endfor %}
+        {% endfor %}
     {% endif %}
 
     {% block content %}{% endblock content %}

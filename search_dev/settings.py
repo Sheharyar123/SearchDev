@@ -1,6 +1,9 @@
 from pathlib import Path
 from environs import Env
 from datetime import timedelta
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Initialize environment variables
 env = Env()
@@ -17,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool("DEBUG", default=False)
+DEBUG = env.bool("DEBUG")
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "searchdev.fly.dev"]
 
@@ -43,6 +46,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "easy_thumbnails",
+    "cloudinary",
     # Local
     "accounts.apps.AccountsConfig",
     "projects.apps.ProjectsConfig",
@@ -123,13 +127,21 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 # Media Files Configuration
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# Cloudinary Settings
+cloudinary.config(
+    cloud_name=env.str("CLOUDINARY_CLOUD_NAME"),
+    api_key=env.str("CLOUDINARY_API_KEY"),
+    api_secret=env.str("CLOUDINARY_API_SECRET"),
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -157,9 +169,11 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "[SearchDev]"
 SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_EMAIL_VERIFICATION = "none"
+DEFAULT_FROM_EMAIL = env.str("EMAIL_HOST_USER")
 # Can be dangerous
 ACCOUNT_LOGOUT_ON_GET = True
 

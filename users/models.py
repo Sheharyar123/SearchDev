@@ -1,7 +1,7 @@
+from cloudinary.models import CloudinaryField
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-from PIL import Image
 import uuid
 
 
@@ -16,8 +16,8 @@ class Profile(models.Model):
     headline = models.CharField(max_length=255, null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
     location = models.CharField(max_length=100, null=True, blank=True)
-    user_img = models.ImageField(
-        upload_to="photos/profiles",
+    user_img = CloudinaryField(
+        "photos/profiles",
         null=True,
         blank=True,
         default="photos/profiles/user-default.png",
@@ -41,16 +41,6 @@ class Profile(models.Model):
     def get_absolute_url(self):
         """Canonical url for each user profile"""
         return reverse("users:user_profile", args=[self.id])
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-
-        img = Image.open(self.user_img.path)
-
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.user_img.path)
 
     @property
     def imageURL(self):

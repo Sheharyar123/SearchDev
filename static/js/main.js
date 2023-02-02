@@ -43,3 +43,8 @@ for (let i = 0; tags.length > i; i++) {
       });
   });
 }
+
+setTimeout(() => {
+  const box = document.getElementById('box');
+  box.style.display = 'none';
+}, 5000);

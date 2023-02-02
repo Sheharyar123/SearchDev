@@ -164,11 +164,20 @@ img {
 
   .header__menuItem a {
     transition: all 0.5s ease-in-out;
-    padding: 1rem 3rem;
+    padding: 0rem 3rem;
+    font-size: 17px;
+  }
+
+  .header__menuItem .btn {
+    background-color: transparent;
+    display: block;
+    align-items: center;
+    margin: 0 auto;
+    margin-bottom: 50px;
   }
 
   .header__menuItem a:hover {
-    padding: 1rem 3rem;
+    padding: 2rem 3rem;
     border-radius: 3px;
     background: var(--color-sub-light);
   }
@@ -677,19 +686,11 @@ img {
   max-width: 65rem;
 }
 
-.auth__header {
-  padding-top: 20px;
-}
-
 @media screen and (min-width: 650px) {
   .auth > .card {
     padding: 5rem 8rem;
     width: 95%;
     max-width: 65rem;
-  }
-
-  .auth__header {
-    padding-top: 120px;
   }
 }
 
@@ -860,4 +861,9 @@ img {
   color: var(--color-sub);
   margin-bottom: 1rem;
   margin-top: 2rem;
+}
+
+.form-error {
+  color: #dc4c64;
+  line-height: 1.5;
 }

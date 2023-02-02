@@ -6,11 +6,11 @@
 {% block content %}
     <div class="auth">
       <div class="card">
-        <div class="auth__header text-center">
+        <div class="auth__header text-center" style="padding-top: 60px;">
           <a href="{% url 'users:users_profiles' %}">
                 <img src="{% static 'img/icon.svg' %}" alt="icon"/>
           </a>
-          <h3>Account SignUp</h3>
+          <h3>Account Sign Up</h3>
           <p>Create a new developer account</p>
         </div>
 
@@ -51,6 +51,20 @@
           <a href="{% url 'account_login' %}">Log In</a>
         </div>
       </div>
+      {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="text-center form-error">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="text-center form-error">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+      {% endif %}
     </div>
 
 {% endblock content %}

@@ -1,4 +1,5 @@
 import uuid
+from cloudinary.models import CloudinaryField
 from django.db import models
 from django.urls import reverse
 from users.models import Profile
@@ -28,8 +29,8 @@ class Project(models.Model):
     description = models.TextField(blank=True)
     demo_link = models.CharField(max_length=255, null=True, blank=True)
     source_link = models.CharField(max_length=255, null=True, blank=True)
-    featured_img = models.ImageField(
-        upload_to="photos/projects",
+    featured_img = CloudinaryField(
+        "photos/projects",
         null=True,
         blank=True,
         default="photos/projects/default.jpg",
