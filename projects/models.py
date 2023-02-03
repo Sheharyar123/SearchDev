@@ -30,10 +30,9 @@ class Project(models.Model):
     demo_link = models.CharField(max_length=255, null=True, blank=True)
     source_link = models.CharField(max_length=255, null=True, blank=True)
     featured_img = CloudinaryField(
-        "photos/projects",
         null=True,
         blank=True,
-        default="photos/projects/default.jpg",
+        default="https://res.cloudinary.com/dkfgh093c/image/upload/v1675368588/default_fsuwsb.jpg",
     )
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)

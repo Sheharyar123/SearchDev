@@ -867,3 +867,51 @@ img {
   color: #dc4c64;
   line-height: 1.5;
 }
+
+.project-img {
+  display: block;
+  margin-bottom: 20px;
+}
+div .project {
+  width: 100%;
+}
+
+.project img {
+  width: 100%;
+  height: 30%;
+}
+
+@media screen and (max-width: 400px) {
+  .project-img {
+    width: 350px;
+    height: 200px;
+  }
+}
+
+@media screen and (min-width: 400px) and (max-width: 600px) {
+  .project-img {
+    width: 450px;
+    height: 250px;
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 800px) {
+  .project-img {
+    width: 550px;
+    height: 300px;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .project-img {
+    width: 700px;
+    height: 400px;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .project-img {
+    width: 850px;
+    height: 500px;
+  }
+}

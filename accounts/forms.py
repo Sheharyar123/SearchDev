@@ -1,9 +1,9 @@
 from django import forms
-
+from django.contrib.auth import get_user_model
 from allauth.account.forms import LoginForm, SignupForm, ResetPasswordKeyForm
-from allauth.socialaccount.models import SocialAccount
-
 from users.models import Profile
+
+User = get_user_model()
 
 
 class CustomLoginForm(LoginForm):
@@ -67,4 +67,14 @@ class CustomResetPasswordKeyForm(ResetPasswordKeyForm):
     )
     password2.widget.attrs.update(
         {"class": "input input--password", "placeholder": "••••••••"}
+    )
+
+
+from allauth.socialaccount.forms import SignupForm
+
+
+class CustomSocialAccountSignUpForm(SignupForm):
+    email = forms.CharField(max_length=255, label="Email")
+    email.widget.attrs.update(
+        {"class": "input input--text", "placeholder": "e.g. user@domain.com"}
     )

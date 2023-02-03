@@ -30,15 +30,16 @@
             {% endif %}
           </div>
           <div class="column column--2of3">
-            {% thumbnail project.featured_img 800x400 crop as thumb %}
+            {% comment %} {% thumbnail project.featured_img 800x400 crop as thumb %}
             {% if thumb %}
                 <img src="{{ STATIC_URL }}{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="" />
             {% else %}
                 <img src="{{ STATIC_URL }}photos/projects/default.jpg" alt=""/>
-            {% endif %}
-            <a href="{{ project.owner.get_absolute_url }}" class="singleProject__developer"
-              >{{ project.owner.name }}</a
-            >
+            {% endif %} {% endcomment %}
+            <img src="{{ project.imageURL }}" alt="Project image" class="project-img" />
+            <p><strong style="font-size: 1.8rem;">By</strong> <a href="{{ project.owner.get_absolute_url }}" class="singleProject__developer">
+              {{ project.owner.name }}</a>
+            </p>
             <h2 class="singleProject__title">
               {{ project.title }}
             </h2>

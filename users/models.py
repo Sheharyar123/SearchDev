@@ -17,10 +17,9 @@ class Profile(models.Model):
     bio = models.TextField(null=True, blank=True)
     location = models.CharField(max_length=100, null=True, blank=True)
     user_img = CloudinaryField(
-        "photos/profiles",
         null=True,
         blank=True,
-        default="photos/profiles/user-default.png",
+        default="https://res.cloudinary.com/dkfgh093c/image/upload/v1675368559/user-default_m9kpsk.png",
     )
     social_github = models.CharField(max_length=255, null=True, blank=True)
     social_twitter = models.CharField(max_length=255, null=True, blank=True)

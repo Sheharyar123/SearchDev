@@ -21,13 +21,17 @@
   <body>
 
     {% include '_navbar.html' %}
-
     {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert--{{message.tags}}" id="box">
-            <p class="alert__message">{{message}}</p>
-            {% comment %} <button class="alert__close">x</button> {% endcomment %}
-        </div>
+        {% for message in messages %} 
+          <div
+              {% if message.tags and message.tags == "error" %} 
+              class="alert alert-danger alert-dismissible"
+              {% elif message.tags %} 
+              class="alert alert-{{ message.tags }} alert-dismissible"
+              {% endif %}
+              role="alert" id="box">
+              {{ message }}
+          </div>
       {% endfor %}
     {% endif %}
 

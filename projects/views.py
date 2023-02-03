@@ -1,5 +1,6 @@
 import re
 from django.db.models import Q
+from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import View, ListView, DetailView, DeleteView
@@ -64,6 +65,7 @@ class ProjectDetailView(DetailView):
             review.owner = request.user.profile
             review.project = self.get_object()
             review.save()
+            messages.success(request, "Your review was submitted")
             return redirect(self.get_object().get_absolute_url())
 
 
@@ -87,6 +89,8 @@ class ProjectCreateView(LoginRequiredMixin, View):
                     name = tag.lower()
                     tag, created = Tag.objects.get_or_create(name=name)
                     project.tags.add(tag)
+            return redirect("users:user_account")
+        else:
             return redirect("users:user_account")
 
 

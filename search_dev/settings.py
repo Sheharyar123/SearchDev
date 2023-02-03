@@ -133,8 +133,8 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 # Media Files Configuration
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+# MEDIA_URL = "/media/"
+# MEDIA_ROOT = BASE_DIR / "media"
 
 # Cloudinary Settings
 cloudinary.config(
@@ -182,6 +182,10 @@ ACCOUNT_FORMS = {
     "login": "accounts.forms.CustomLoginForm",
     "signup": "accounts.forms.CustomSignupForm",
     "reset_password_from_key": "accounts.forms.CustomResetPasswordKeyForm",
+}
+
+SOCIALACCOUNT_FORMS = {
+    "signup": "accounts.forms.CustomSocialAccountSignUpForm",
 }
 
 # SMTP SETTINGS
