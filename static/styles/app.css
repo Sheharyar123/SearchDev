@@ -881,6 +881,7 @@ div .project {
   height: 30%;
 }
 
+
 @media screen and (max-width: 400px) {
   .project-img {
     width: 350px;

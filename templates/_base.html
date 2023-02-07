@@ -22,17 +22,13 @@
 
     {% include '_navbar.html' %}
     {% if messages %}
-        {% for message in messages %} 
-          <div
-              {% if message.tags and message.tags == "error" %} 
-              class="alert alert-danger alert-dismissible"
-              {% elif message.tags %} 
-              class="alert alert-{{ message.tags }} alert-dismissible"
-              {% endif %}
-              role="alert" id="box">
-              {{ message }}
+      <ul class="django-messages">
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}" id="box" style="margin-bottom: 0px;">
+            {{ message }}
           </div>
-      {% endfor %}
+          {% endfor %}
+      </ul>
     {% endif %}
 
     {% block content %}{% endblock content %}

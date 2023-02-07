@@ -82,6 +82,7 @@ class ProjectCreateView(LoginRequiredMixin, View):
             project = form.save(commit=False)
             project.owner = request.user.profile
             project.save()
+            messages.success(request, "Your project was added successfully.")
 
             for tag in newtags:
                 valid_tag = re.search("[a-zA-Z0-9#+$()]+", tag)
@@ -89,9 +90,11 @@ class ProjectCreateView(LoginRequiredMixin, View):
                     name = tag.lower()
                     tag, created = Tag.objects.get_or_create(name=name)
                     project.tags.add(tag)
-            return redirect("users:user_account")
         else:
-            return redirect("users:user_account")
+            messages.error(
+                request, "There was a problem adding your project. Please try again!"
+            )
+        return redirect("users:user_account")
 
 
 class ProjectUpdateView(LoginRequiredMixin, View):
@@ -110,6 +113,7 @@ class ProjectUpdateView(LoginRequiredMixin, View):
             project = form.save(commit=False)
             project.owner = request.user.profile
             project.save()
+            messages.success(request, "Your project was updated successfully.")
 
             for tag in newtags:
                 valid_tag = re.search("[a-zA-Z0-9#+$()]+", tag)
@@ -120,11 +124,17 @@ class ProjectUpdateView(LoginRequiredMixin, View):
                     except Tag.DoesNotExist:
                         tag = Tag.objects.create(name=name)
                         project.tags.add(tag)
-
-            return redirect("users:user_account")
+        else:
+            messages.error(
+                request, "There was a problem updating your project. Please try again!"
+            )
+        return redirect("users:user_account")
 
 
 class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = Project
     template_name = "projects/project_delete.html"
-    success_url = reverse_lazy("users:user_account")
+
+    def get_success_url(self):
+        messages.error(self.request, "Your project was deleted successfully.")
+        return reverse_lazy("users:user_account")

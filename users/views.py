@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views.generic import (
@@ -88,13 +87,21 @@ class UserAccountEditView(LoginRequiredMixin, View):
             user.name = user_name
             user.save()
             form.save()
-            return redirect("users:user_account")
+            messages.success(request, "Your profile was updated successfully.")
+        else:
+            messages.error(
+                request, "There was a problem updating your profile. Please try again!"
+            )
+        return redirect("users:user_account")
 
 
 class SkillCreateView(LoginRequiredMixin, CreateView):
     form_class = SkillForm
     template_name = "users/skill_create.html"
-    success_url = reverse_lazy("users:user_account")
+
+    def get_success_url(self):
+        messages.success(self.request, "Your skill was added successfully.")
+        return reverse_lazy("users:user_account")
 
     def form_valid(self, form):
         form.instance.owner = self.request.user.profile
@@ -106,13 +113,19 @@ class SkillUpdateView(LoginRequiredMixin, UpdateView):
     model = Skill
     form_class = SkillForm
     template_name = "users/skill_update.html"
-    success_url = reverse_lazy("users:user_account")
+
+    def get_success_url(self):
+        messages.success(self.request, "Your skill was updated successfully.")
+        return reverse_lazy("users:user_account")
 
 
 class SkillDeleteView(LoginRequiredMixin, DeleteView):
     model = Skill
     template_name = "users/skill_delete.html"
-    success_url = reverse_lazy("users:user_account")
+
+    def get_success_url(self):
+        messages.error(self.request, "Your skill was deleted successfully.")
+        return reverse_lazy("users:user_account")
 
 
 class MessageListView(LoginRequiredMixin, View):
@@ -160,5 +173,9 @@ class MessageCreateView(LoginRequiredMixin, View):
 
             message.save()
             messages.success(request, "Your message was sent.")
+        else:
+            messages.error(
+                request, "There was a problem sending your message. Please try again!"
+            )
 
         return redirect("users:user_profile", pk=recipient.id)
