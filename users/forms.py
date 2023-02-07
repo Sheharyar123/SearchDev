@@ -1,8 +1,15 @@
-from django.forms import ModelForm
+from django import forms
 from .models import Profile, Skill, Message
 
 
-class ProfileForm(ModelForm):
+class ProfileForm(forms.ModelForm):
+    user_img = forms.ImageField(
+        label="Profile Pic",
+        required=False,
+        error_messages={"invalid": "Image files only"},
+        widget=forms.FileInput,
+    )
+
     class Meta:
         model = Profile
         fields = [
@@ -25,7 +32,7 @@ class ProfileForm(ModelForm):
             field.widget.attrs.update({"class": "input"})
 
 
-class SkillForm(ModelForm):
+class SkillForm(forms.ModelForm):
     class Meta:
         model = Skill
         fields = ["name", "description"]
@@ -36,7 +43,7 @@ class SkillForm(ModelForm):
             field.widget.attrs.update({"class": "input"})
 
 
-class MessageForm(ModelForm):
+class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
         fields = ["name", "email", "subject", "body"]

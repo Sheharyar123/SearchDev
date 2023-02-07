@@ -7,7 +7,6 @@ from projects.models import Project, Tag, Review
 from .serializers import (
     ProfileSerializer,
     ProjectSerializer,
-    ReviewSerializer,
     MyTokenObtainPairSerializer,
 )
 from .permissions import (

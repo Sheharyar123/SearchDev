@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "easy_thumbnails",
     "cloudinary",
+    "drf_spectacular",
     # Local
     "accounts.apps.AccountsConfig",
     "projects.apps.ProjectsConfig",
@@ -271,3 +272,9 @@ SECURE_HSTS_PRELOAD = env.bool("DJANGO_SECURE_HSTS_PRELOAD", default=True)
 SESSION_COOKIE_SECURE = env.bool("DJANGO_SESSION_COOKIE_SECURE", default=True)
 CSRF_COOKIE_SECURE = env.bool("DJANGO_CSRF_COOKIE_SECURE", default=True)
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+
+# API Documentation
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}

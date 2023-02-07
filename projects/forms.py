@@ -1,4 +1,4 @@
-from django.forms import ModelForm, widgets, CheckboxSelectMultiple
+from django.forms import ModelForm, CheckboxSelectMultiple, ImageField, FileInput
 from .models import Review, Project
 
 
@@ -17,6 +17,13 @@ class ReviewForm(ModelForm):
 
 
 class ProjectForm(ModelForm):
+    featured_img = ImageField(
+        label="Featured Image",
+        required=False,
+        error_messages={"invalid": "Image files only"},
+        widget=FileInput,
+    )
+
     class Meta:
         model = Project
         fields = ["title", "featured_img", "description", "demo_link", "source_link"]
